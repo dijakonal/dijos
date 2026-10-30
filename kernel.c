@@ -84,6 +84,10 @@ void terminal_put_entry_at(char c, uint8_t color, size_t x, size_t y)
 void terminal_put_char(char c)
 {
 	terminal_put_entry_at(c, terminal_color, terminal_column, terminal_row);
+	if (c == '\n') {
+		terminal_row++;
+		terminal_column = -1;
+	}
 	if (++terminal_column == vga_width) {
 		terminal_column = 0;
 		if (++terminal_row == vga_height) {
@@ -108,4 +112,6 @@ void kernel_main(void)
 	terminal_initialise();
 
 	terminal_write_string("Hello world!\n");
+
+	terminal_write_string("Hello world!");
 }
